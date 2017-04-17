@@ -1,10 +1,12 @@
 package com.think.shopster;
 
+import java.io.Serializable;
+
 /**
  * Created by anand on 17/04/17.
  */
 
-public class ProductData {
+public class ProductData implements Serializable{
 
     public String product_name;
     public String image_url;
