@@ -39,9 +39,7 @@ public class MainActivity extends FragmentActivity implements
     private PendingIntent mSignInIntent;
 
     private SignInButton mSignInButton;
-    private Button mSignOutButton;
-    private Button mRevokeButton;
-    private TextView mStatus;
+    private TextView mSignInTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,20 +47,15 @@ public class MainActivity extends FragmentActivity implements
         setContentView(R.layout.activity_main);
 
         mSignInButton = (SignInButton) findViewById(R.id.sign_in_button);
-        mSignOutButton = (Button) findViewById(R.id.sign_out_button);
-        mRevokeButton = (Button) findViewById(R.id.revoke_access_button);
-        mStatus = (TextView) findViewById(R.id.statuslabel);
-
+        mSignInTextView = (TextView) findViewById(R.id.sign_in_textview);
+        mSignInTextView.setEnabled(false);
         // Add click listeners for the buttons
         mSignInButton.setOnClickListener(this);
-        mSignOutButton.setOnClickListener(this);
-        mRevokeButton.setOnClickListener(this);
 
         // Build a GoogleApiClient
         mGoogleApiClient = buildGoogleApiClient();
 
     }
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -78,12 +71,7 @@ public class MainActivity extends FragmentActivity implements
 
     @Override
     public void onConnected(Bundle bundle) {
-        mSignInButton.setEnabled(false);
-        mSignOutButton.setEnabled(true);
-        mRevokeButton.setEnabled(true);
 
-        // Indicate that the sign in process is complete.
-        mSignInProgress = SIGNED_IN;
 
         try {
             if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -111,9 +99,12 @@ public class MainActivity extends FragmentActivity implements
             case REQUEST_CODE_ASK_PERMISSIONS:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // Permission Granted
+                    mSignInButton.setEnabled(false);
+                    // Indicate that the sign in process is complete.
+                    mSignInProgress = SIGNED_IN;
                     String emailAddress = Plus.AccountApi.getAccountName(mGoogleApiClient);
-                    mStatus.setText(String.format("Signed In to My App as %s", emailAddress));
-
+                    Toast.makeText(this,"Signed In with Email: "+emailAddress,Toast.LENGTH_SHORT);
+                    startActivity(new Intent(getBaseContext(),SearchActivity.class));
                 } else {
                     // Permission Denied
                     Toast.makeText(this,"GET_ACCOUNTS Denied",Toast.LENGTH_LONG);
@@ -142,10 +133,7 @@ public class MainActivity extends FragmentActivity implements
     private void onSignedOut() {
         // Update the UI to reflect that the user is signed out.
         mSignInButton.setEnabled(true);
-        mSignOutButton.setEnabled(false);
-        mRevokeButton.setEnabled(false);
 
-        mStatus.setText("Signed out");
     }
 
     @Override
@@ -196,20 +184,9 @@ public class MainActivity extends FragmentActivity implements
         if (!mGoogleApiClient.isConnecting()) {
             switch (v.getId()) {
                 case R.id.sign_in_button:
-                    mStatus.setText("Signing In");
                     resolveSignInError();
                     break;
-                case R.id.sign_out_button:
-                    Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
-                    mGoogleApiClient.disconnect();
-                    mGoogleApiClient.connect();
-                    break;
-                case R.id.revoke_access_button:
-                    Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
-                    Plus.AccountApi.revokeAccessAndDisconnect(mGoogleApiClient);
-                    mGoogleApiClient = buildGoogleApiClient();
-                    mGoogleApiClient.connect();
-                    break;
+
             }
         }
     }
