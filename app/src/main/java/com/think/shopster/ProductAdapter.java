@@ -36,8 +36,7 @@ public class ProductAdapter extends ArrayAdapter<ProductData> implements Seriali
         }
 
         ProductData productData= getItem(position);
-        float minPrice= productData.a_price<productData.s_price?productData.a_price<productData.f_price?productData.a_price:productData.f_price:
-                productData.s_price<productData.f_price?productData.s_price:productData.f_price;
+
 
 
         ImageView productImage=(ImageView) convertView.findViewById(R.id.imageView);
@@ -48,7 +47,7 @@ public class ProductAdapter extends ArrayAdapter<ProductData> implements Seriali
 
         Picasso.with(getContext()).load(productData.image_url).into(productImage);
         productName.setText(productData.product_name);
-        productPrice.setText(""+minPrice);
+        productPrice.setText(""+productData.min_price);
 
         return convertView;
 

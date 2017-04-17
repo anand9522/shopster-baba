@@ -6,21 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.think.shopster.MainActivity">
 
-    <EditText
-        android:id="@+id/sign_in_textview"
-        android:layout_width="225dp"
-        android:layout_height="49dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Please Sign In"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="125dp"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHorizontal_bias="0.57" />
-
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
         android:layout_width="230dp"
@@ -36,4 +21,22 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.012" />
+
+    <TextView
+        android:id="@+id/sign_in_textview"
+        android:layout_width="237dp"
+        android:layout_height="50dp"
+        android:text="Please SignIn Using Google:"
+        android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
+        android:textSize="18sp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/sign_in_button"
+        app:layout_constraintHorizontal_bias="0.587"
+        app:layout_constraintVertical_bias="0.953" />
 </android.support.constraint.ConstraintLayout>

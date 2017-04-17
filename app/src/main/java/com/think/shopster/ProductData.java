@@ -16,5 +16,6 @@ public class ProductData implements Serializable{
     public float s_price;
     public String a_url;
     public float a_price;
+    public float min_price;
 
 }

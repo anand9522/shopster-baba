@@ -63,6 +63,8 @@ public class Util {
             p.s_price=Float.parseFloat(attr[6]);
             p.a_url=attr[7];
             p.a_price=Float.parseFloat(attr[8]);
+            p.min_price= p.a_price<p.s_price?p.a_price<p.f_price?p.a_price:p.f_price:
+                    p.s_price<p.f_price?p.s_price:p.f_price;
 //            System.out.println(p.product_name);
             results.add(p);
             System.out.println("--------------------");
